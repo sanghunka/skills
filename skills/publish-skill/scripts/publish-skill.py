@@ -127,9 +127,16 @@ def ensure_clean_target(repo_root: Path, rel_target: Path, force: bool) -> None:
 
 
 def copy_skill(source: Path, target: Path) -> None:
+    preserved_readme: str | None = None
+    target_readme = target / "README.md"
+    source_readme = source / "README.md"
+    if target_readme.exists() and not source_readme.exists():
+        preserved_readme = target_readme.read_text(encoding="utf-8")
     if target.exists():
         shutil.rmtree(target)
     shutil.copytree(source, target, ignore=should_ignore)
+    if preserved_readme is not None and not (target / "README.md").exists():
+        (target / "README.md").write_text(preserved_readme, encoding="utf-8")
 
 
 def rewrite_skill_name(target: Path, dest_name: str) -> None:
@@ -195,55 +202,20 @@ def skill_dirs(repo_root: Path) -> list[Path]:
     return sorted(path for path in skills_root.iterdir() if path.is_dir() and (path / "SKILL.md").exists())
 
 
-def visible_children(path: Path) -> tuple[list[Path], list[Path]]:
-    children = [child for child in path.iterdir() if child.name not in should_ignore(str(path), [child.name])]
-    dirs = sorted(child for child in children if child.is_dir())
-    files = sorted(child for child in children if child.is_file())
-    return dirs, files
-
-
-def append_tree_lines(lines: list[str], root: Path, indent: int) -> None:
-    dirs, files = visible_children(root)
-    for file_path in files:
-        lines.append(f"{' ' * indent}{file_path.name}")
-    for dir_path in dirs:
-        lines.append(f"{' ' * indent}{dir_path.name}/")
-        append_tree_lines(lines, dir_path, indent + 2)
-
-
 def render_catalog(repo_root: Path, repo_slug: str) -> str:
-    sections: list[str] = ["## Skills", ""]
+    sections: list[str] = [
+        "## Skills",
+        "",
+        "Each skill folder has its own README with install and usage details.",
+        "",
+        "| Skill | Summary |",
+        "| --- | --- |",
+    ]
     for skill_dir in skill_dirs(repo_root):
         fields = parse_frontmatter(skill_dir / "SKILL.md")
         description = description_summary(fields.get("description", "No description provided."))
-        sections.extend(
-            [
-                f"### {skill_dir.name}",
-                "",
-                description,
-                "",
-                "Install:",
-                "",
-                "```bash",
-                "python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \\",
-                f"  --repo {repo_slug} \\",
-                f"  --path skills/{skill_dir.name}",
-                "```",
-                "",
-                "After installing, restart Codex so the skill appears in new sessions.",
-                "",
-            ]
-        )
+        sections.append(f"| [`{skill_dir.name}`](skills/{skill_dir.name}/) | {description} |")
     return "\n".join(sections).rstrip() + "\n"
-
-
-def render_layout(repo_root: Path) -> str:
-    lines = ["## Repository Layout", "", "```text", "skills/"]
-    for skill_dir in skill_dirs(repo_root):
-        lines.append(f"  {skill_dir.name}/")
-        append_tree_lines(lines, skill_dir, 4)
-    lines.extend(["```", "", "Each skill is independently installable by path.", ""])
-    return "\n".join(lines)
 
 
 def update_readme(repo_root: Path, repo_slug: str) -> None:
@@ -253,8 +225,45 @@ def update_readme(repo_root: Path, repo_slug: str) -> None:
         prefix = original.split("\n## Skills\n", 1)[0].rstrip()
     else:
         prefix = "# Skills\n\nPersonal agent skills that can be installed selectively into Codex."
-    body = prefix + "\n\n" + render_catalog(repo_root, repo_slug) + "\n" + render_layout(repo_root)
+    body = prefix + "\n\n" + render_catalog(repo_root, repo_slug)
     readme.write_text(body, encoding="utf-8")
+
+
+def render_skill_readme(skill_dir: Path, repo_slug: str) -> str:
+    fields = parse_frontmatter(skill_dir / "SKILL.md")
+    description = fields.get("description", "No description provided.")
+    lines = [
+        f"# {skill_dir.name}",
+        "",
+        description_summary(description),
+        "",
+        "## Install",
+        "",
+        "```bash",
+        "python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \\",
+        f"  --repo {repo_slug} \\",
+        f"  --path skills/{skill_dir.name}",
+        "```",
+        "",
+        "Restart Codex after installing so the skill appears in new sessions.",
+        "",
+        "## Details",
+        "",
+        "Agent-facing workflow and implementation details live in [`SKILL.md`](SKILL.md).",
+    ]
+    scripts_dir = skill_dir / "scripts"
+    scripts = sorted(path.name for path in scripts_dir.glob("*") if path.is_file()) if scripts_dir.exists() else []
+    if scripts:
+        lines.extend(["", "## Scripts", ""])
+        for script in scripts:
+            lines.append(f"- `scripts/{script}`")
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def ensure_skill_readme(skill_dir: Path, repo_slug: str) -> None:
+    readme = skill_dir / "README.md"
+    if not readme.exists():
+        readme.write_text(render_skill_readme(skill_dir, repo_slug), encoding="utf-8")
 
 
 def git_commit_push(repo_root: Path, skill_name: str, commit: bool, push: bool) -> None:
@@ -295,6 +304,7 @@ def main() -> int:
     parser.add_argument("--repo", default=os.environ.get("SKILLS_GITHUB_REPO", "sanghunka/skills"))
     parser.add_argument("--force", action="store_true", help="Replace target even if git reports local changes")
     parser.add_argument("--skip-readme", action="store_true", help="Do not regenerate README.md")
+    parser.add_argument("--skip-skill-readme", action="store_true", help="Do not create README.md in the skill folder")
     parser.add_argument(
         "--strict-portability",
         action="store_true",
@@ -336,6 +346,9 @@ def main() -> int:
             print(f"  {warning}")
         if args.strict_portability:
             raise SystemExit("Strict portability failed.")
+
+    if not args.skip_skill_readme:
+        ensure_skill_readme(target, args.repo)
 
     if not args.skip_readme:
         update_readme(repo_root, args.repo)

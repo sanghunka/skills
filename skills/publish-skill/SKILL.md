@@ -35,7 +35,8 @@ python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.p
 - Copies the skill into `skills/<skill-name>` in the repo.
 - Excludes generated or local-only junk such as `.DS_Store`, `__pycache__`, `*.pyc`, `.git`, and backup files.
 - Refuses to replace an existing target skill directory if that path has uncommitted git changes, unless `--force` is passed.
-- Regenerates the README catalog entries and repository layout from the actual `skills/` directory.
+- Regenerates the root README as a compact skill index.
+- Creates a per-skill `README.md` with install and usage details when the target skill does not already have one.
 - Runs Codex `quick_validate.py` when available.
 - Runs `python3 -m py_compile` for Python scripts and `bash -n` for shell scripts.
 - Warns on likely personal absolute paths in copied files.
@@ -62,11 +63,13 @@ Common options:
 --commit
 --push
 --strict-portability
+--skip-skill-readme
 ```
 
 ## Publishing Rules
 
-- Do not include README files inside individual skill folders unless the source skill already intentionally has one.
+- Keep the root README concise: list skills and link to each skill folder for details.
+- Keep per-skill usage details in `skills/<skill-name>/README.md`.
 - Keep skill folders self-contained: `SKILL.md`, optional `agents/`, optional `scripts/`, optional `references/`, optional `assets/`.
 - Do not publish generated caches, local backups, secrets, or machine-specific absolute paths.
 - Do not rewrite unrelated README prose by hand after the helper has regenerated the catalog.
