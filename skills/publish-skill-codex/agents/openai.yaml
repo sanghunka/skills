@@ -1,0 +1,4 @@
+interface:
+  display_name: "Publish Skill Codex"
+  short_description: "Publish installed Codex skills to a GitHub skills repo."
+  default_prompt: "Add this installed Codex skill to my skills repo."

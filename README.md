@@ -8,7 +8,7 @@ This repository is meant to be used as a skill catalog. You usually do not need 
 
 ### move-thread-codex
 
-Move a local Codex thread to another project/sidebar bucket by updating its stored Codex metadata with backups and verification.
+Move a local Codex thread to a different project/sidebar bucket by updating its stored cwd in SQLite and rollout JSONL with backups and verification.
 
 Install:
 
@@ -20,9 +20,23 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
 
 After installing, restart Codex so the skill appears in new sessions.
 
+### publish-skill-codex
+
+Publish installed local Codex skills into a GitHub skills catalog repo.
+
+Install:
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo sanghunka/skills \
+  --path skills/publish-skill-codex
+```
+
+After installing, restart Codex so the skill appears in new sessions.
+
 ### youtube-script-extractor
 
-Extract transcripts, captions, subtitles, or script text from YouTube video URLs.
+Extract scripts, captions, subtitles, or transcript text from YouTube video URLs.
 
 Install:
 
@@ -42,6 +56,12 @@ skills/
     SKILL.md
     scripts/
       move-thread-codex.sh
+  publish-skill-codex/
+    SKILL.md
+    agents/
+      openai.yaml
+    scripts/
+      publish-skill-codex.py
   youtube-script-extractor/
     SKILL.md
     agents/
