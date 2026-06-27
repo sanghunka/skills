@@ -20,7 +20,7 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
 
 After installing, restart Codex so the skill appears in new sessions.
 
-### publish-skill-codex
+### publish-skill
 
 Publish installed local Codex skills into a GitHub skills catalog repo.
 
@@ -29,7 +29,7 @@ Install:
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
   --repo sanghunka/skills \
-  --path skills/publish-skill-codex
+  --path skills/publish-skill
 ```
 
 After installing, restart Codex so the skill appears in new sessions.
@@ -56,12 +56,12 @@ skills/
     SKILL.md
     scripts/
       move-thread-codex.sh
-  publish-skill-codex/
+  publish-skill/
     SKILL.md
     agents/
       openai.yaml
     scripts/
-      publish-skill-codex.py
+      publish-skill.py
   youtube-script-extractor/
     SKILL.md
     agents/

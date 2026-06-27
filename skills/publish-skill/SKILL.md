@@ -1,9 +1,9 @@
 ---
-name: publish-skill-codex
+name: publish-skill
 description: Publish installed local Codex skills into a GitHub skills catalog repo. Use when the user asks to add, copy, export, publish, share, or sync an existing Codex skill into a skills repository, update the repo README install instructions, or make a local skill distributable from GitHub.
 ---
 
-# Publish Skill Codex
+# Publish Skill
 
 Use this skill to move an already-installed local Codex skill into a GitHub-hosted skills catalog, usually `sanghunka/skills`.
 
@@ -18,19 +18,19 @@ Use this skill to move an already-installed local Codex skill into a GitHub-host
 3. Run the helper:
 
 ```bash
-python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill-codex/scripts/publish-skill-codex.py <skill-name>
+python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.py <skill-name>
 ```
 
 4. Review portability warnings. Replace personal absolute paths, machine-specific defaults, credentials, generated files, and private project assumptions before committing.
 5. Validate and publish. If the user asked for a full GitHub update, rerun with:
 
 ```bash
-python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill-codex/scripts/publish-skill-codex.py <skill-name> --commit --push
+python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.py <skill-name> --commit --push
 ```
 
 ## Helper Behavior
 
-`scripts/publish-skill-codex.py` performs the deterministic parts:
+`scripts/publish-skill.py` performs the deterministic parts:
 
 - Copies the skill into `skills/<skill-name>` in the repo.
 - Excludes generated or local-only junk such as `.DS_Store`, `__pycache__`, `*.pyc`, `.git`, and backup files.
