@@ -2,7 +2,7 @@
 
 Move a local Codex Desktop thread to a different project in the sidebar by updating the thread's stored `cwd` in Codex state and its rollout JSONL metadata.
 
-## Install
+## Install in Codex
 
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
@@ -10,7 +10,7 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
   --path skills/move-thread-codex
 ```
 
-Restart Codex after installing so the skill appears in new sessions.
+Restart Codex after installing so the skill appears in new Codex sessions.
 
 ## Usage
 

@@ -1,8 +1,8 @@
 # publish-skill
 
-Publish an installed local Codex skill into this GitHub skills catalog.
+Publish an installed local agent skill into this GitHub skills catalog.
 
-## Install
+## Install in Codex
 
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
@@ -10,11 +10,11 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
   --path skills/publish-skill
 ```
 
-Restart Codex after installing so the skill appears in new sessions.
+Restart Codex after installing so the skill appears in new Codex sessions.
 
 ## Usage
 
-Ask Codex things like:
+Ask your agent things like:
 
 ```text
 Add youtube-script-extractor to the skills repo.
@@ -22,7 +22,7 @@ Publish this installed skill to GitHub.
 Sync move-thread-codex into sanghunka/skills.
 ```
 
-The helper copies `${CODEX_HOME:-$HOME/.codex}/skills/<skill-name>` into `skills/<skill-name>`, skips generated files, validates `SKILL.md`, runs syntax checks for scripts, warns on likely personal absolute paths, updates the root README index, and creates a per-skill README when needed.
+The helper copies a local skill folder into `skills/<skill-name>`, skips generated files, validates `SKILL.md`, runs syntax checks for scripts, warns on likely personal absolute paths, updates the root README index, and creates a per-skill README when needed. By default, it reads from `${CODEX_HOME:-$HOME/.codex}/skills`, but `--source-root` can point elsewhere.
 
 Common direct command:
 

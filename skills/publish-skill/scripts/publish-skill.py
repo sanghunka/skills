@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish a local Codex skill into a GitHub skills catalog repo."""
+"""Publish a local agent skill into a GitHub skills catalog repo."""
 
 from __future__ import annotations
 
@@ -206,8 +206,6 @@ def render_catalog(repo_root: Path, repo_slug: str) -> str:
     sections: list[str] = [
         "## Skills",
         "",
-        "Each skill folder has its own README with install and usage details.",
-        "",
         "| Skill | Summary |",
         "| --- | --- |",
     ]
@@ -224,7 +222,7 @@ def update_readme(repo_root: Path, repo_slug: str) -> None:
         original = readme.read_text(encoding="utf-8")
         prefix = original.split("\n## Skills\n", 1)[0].rstrip()
     else:
-        prefix = "# Skills\n\nPersonal agent skills that can be installed selectively into Codex."
+        prefix = "# Skills\n\nPersonal agent skills shared as an installable catalog."
     body = prefix + "\n\n" + render_catalog(repo_root, repo_slug)
     readme.write_text(body, encoding="utf-8")
 
@@ -237,7 +235,7 @@ def render_skill_readme(skill_dir: Path, repo_slug: str) -> str:
         "",
         description_summary(description),
         "",
-        "## Install",
+        "## Install in Codex",
         "",
         "```bash",
         "python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \\",
@@ -245,7 +243,9 @@ def render_skill_readme(skill_dir: Path, repo_slug: str) -> str:
         f"  --path skills/{skill_dir.name}",
         "```",
         "",
-        "Restart Codex after installing so the skill appears in new sessions.",
+        "Restart Codex after installing so the skill appears in new Codex sessions.",
+        "",
+        "Outside Codex, point your agent at this folder or copy it into your agent's skill directory.",
         "",
         "## Details",
         "",
@@ -293,12 +293,12 @@ def infer_skill_name_from_cwd() -> str | None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("skill_name", nargs="?", help="Installed Codex skill folder name")
+    parser.add_argument("skill_name", nargs="?", help="Installed skill folder name")
     parser.add_argument("--dest-name", help="Destination skill folder name in the repo")
     parser.add_argument(
         "--source-root",
         default=str(Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser() / "skills"),
-        help="Installed Codex skills root",
+        help="Installed skills root",
     )
     parser.add_argument("--repo-root", default=str(default_repo_root()), help="Skills catalog repo root")
     parser.add_argument("--repo", default=os.environ.get("SKILLS_GITHUB_REPO", "sanghunka/skills"))
@@ -326,7 +326,7 @@ def main() -> int:
     if not source.exists():
         raise SystemExit(f"Source skill does not exist: {source}")
     if not (source / "SKILL.md").exists():
-        raise SystemExit(f"Source is not a Codex skill folder: {source}")
+        raise SystemExit(f"Source is not a skill folder: {source}")
     if not looks_like_skills_repo(repo_root):
         raise SystemExit(f"Repo root does not look like a skills repo: {repo_root}")
 

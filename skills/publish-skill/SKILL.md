@@ -1,11 +1,11 @@
 ---
 name: publish-skill
-description: Publish installed local Codex skills into a GitHub skills catalog repo. Use when the user asks to add, copy, export, publish, share, or sync an existing Codex skill into a skills repository, update the repo README install instructions, or make a local skill distributable from GitHub.
+description: Publish installed local agent skills into a GitHub skills catalog repo. Use when the user asks to add, copy, export, publish, share, or sync an existing skill into a skills repository, update the repo README install instructions, or make a local skill distributable from GitHub.
 ---
 
 # Publish Skill
 
-Use this skill to move an already-installed local Codex skill into a GitHub-hosted skills catalog, usually `sanghunka/skills`.
+Use this skill to move an already-installed local agent skill into a GitHub-hosted skills catalog, usually `sanghunka/skills`.
 
 ## Workflow
 
@@ -37,7 +37,7 @@ python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.p
 - Refuses to replace an existing target skill directory if that path has uncommitted git changes, unless `--force` is passed.
 - Regenerates the root README as a compact skill index.
 - Creates a per-skill `README.md` with install and usage details when the target skill does not already have one.
-- Runs Codex `quick_validate.py` when available.
+- Runs `quick_validate.py` when available.
 - Runs `python3 -m py_compile` for Python scripts and `bash -n` for shell scripts.
 - Warns on likely personal absolute paths in copied files.
 - Optionally commits and pushes with `--commit --push`.

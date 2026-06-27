@@ -2,7 +2,7 @@
 
 Extract scripts, captions, subtitles, or transcript text from YouTube URLs.
 
-## Install
+## Install in Codex
 
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
@@ -10,11 +10,11 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
   --path skills/youtube-script-extractor
 ```
 
-Restart Codex after installing so the skill appears in new sessions.
+Restart Codex after installing so the skill appears in new Codex sessions.
 
 ## Usage
 
-Ask Codex things like:
+Ask your agent things like:
 
 ```text
 Get the transcript for this YouTube video.
@@ -31,6 +31,8 @@ python3 ~/.codex/skills/youtube-script-extractor/scripts/extract_youtube_script.
 ```
 
 By default, output is Markdown with frontmatter. Set `YOUTUBE_TRANSCRIPT_INBOX` or pass `--output <path>` to choose where files are saved.
+
+Outside Codex, point your agent at this folder or run the script directly from wherever you keep the skill.
 
 ## Details
 
