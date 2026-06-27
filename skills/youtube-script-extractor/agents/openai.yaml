@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Script Extractor"
+  short_description: "Extract transcripts and scripts from YouTube videos."
+  default_prompt: "Extract the script from this YouTube URL."

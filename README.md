@@ -20,6 +20,20 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
 
 After installing, restart Codex so the skill appears in new sessions.
 
+### youtube-script-extractor
+
+Extract transcripts, captions, subtitles, or script text from YouTube video URLs.
+
+Install:
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo sanghunka/skills \
+  --path skills/youtube-script-extractor
+```
+
+After installing, restart Codex so the skill appears in new sessions.
+
 ## Repository Layout
 
 ```text
@@ -28,7 +42,12 @@ skills/
     SKILL.md
     scripts/
       move-thread-codex.sh
+  youtube-script-extractor/
+    SKILL.md
+    agents/
+      openai.yaml
+    scripts/
+      extract_youtube_script.py
 ```
 
 Each skill is independently installable by path.
-
