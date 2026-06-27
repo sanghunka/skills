@@ -6,9 +6,7 @@ Move a local Codex Desktop thread to a different project in the sidebar by updat
 
 This skill is Codex-specific because it edits local Codex Desktop thread metadata.
 
-Give this README URL to Codex and ask it to install or use the skill:
-
-https://github.com/sanghunka/skills/tree/main/skills/move-thread-codex
+Open this README in GitHub and give the current page to Codex. Ask it to install or use the skill.
 
 ## Usage
 

@@ -18,14 +18,14 @@ Use this skill to move an already-installed local agent skill into a GitHub-host
 3. Run the helper:
 
 ```bash
-python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.py <skill-name>
+python ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.py <skill-name>
 ```
 
 4. Review portability warnings. Replace personal absolute paths, machine-specific defaults, credentials, generated files, and private project assumptions before committing.
 5. Validate and publish. If the user asked for a full GitHub update, rerun with:
 
 ```bash
-python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.py <skill-name> --commit --push
+python ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.py <skill-name> --commit --push
 ```
 
 ## Helper Behavior
@@ -38,7 +38,7 @@ python3 ${CODEX_HOME:-$HOME/.codex}/skills/publish-skill/scripts/publish-skill.p
 - Regenerates the root README as a compact skill index.
 - Creates a per-skill `README.md` that users can hand to an agent when the target skill does not already have one.
 - Runs `quick_validate.py` when available.
-- Runs `python3 -m py_compile` for Python scripts and `bash -n` for shell scripts.
+- Runs `python -m py_compile` for Python scripts and `bash -n` for shell scripts.
 - Warns on likely personal absolute paths in copied files.
 - Optionally commits and pushes with `--commit --push`.
 

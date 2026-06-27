@@ -17,10 +17,10 @@ description: Extract scripts, captions, subtitles, or transcript text from YouTu
 ## Command Examples
 
 ```bash
-python3 "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "https://www.youtube.com/watch?v=VIDEO_ID"
-python3 "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "https://youtu.be/VIDEO_ID" --lang ko,en --timestamps
-python3 "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "URL" --cookies-from-browser chrome
-python3 "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "URL" --output transcript.md
+python "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "https://www.youtube.com/watch?v=VIDEO_ID"
+python "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "https://youtu.be/VIDEO_ID" --lang ko,en --timestamps
+python "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "URL" --cookies-from-browser chrome
+python "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extract_youtube_script.py" "URL" --output transcript.md
 ```
 
 ## Output Handling

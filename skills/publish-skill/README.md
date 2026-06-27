@@ -4,9 +4,7 @@ Publish an installed local agent skill into this GitHub skills catalog.
 
 ## Use With An Agent
 
-Give this README URL to your agent (Codex, Claude Code, or another skill-aware agent) and ask it to install or use the skill:
-
-https://github.com/sanghunka/skills/tree/main/skills/publish-skill
+Open this README in GitHub and give the current page to your agent (Codex, Claude Code, or another skill-aware agent). Ask it to install or use the skill.
 
 ## Usage
 
@@ -23,7 +21,7 @@ The helper copies a local skill folder into `skills/<skill-name>`, skips generat
 Common direct command:
 
 ```bash
-python3 ~/.codex/skills/publish-skill/scripts/publish-skill.py <skill-name> --commit --push
+python ~/.codex/skills/publish-skill/scripts/publish-skill.py <skill-name> --commit --push
 ```
 
 Agent-facing workflow and implementation details live in [`SKILL.md`](SKILL.md).

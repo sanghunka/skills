@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Publish a local agent skill into a GitHub skills catalog repo."""
 
 from __future__ import annotations
@@ -175,13 +175,13 @@ def validate_skill(target: Path) -> None:
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
     quick_validate = codex_home / "skills/.system/skill-creator/scripts/quick_validate.py"
     if quick_validate.exists():
-        run(["python3", str(quick_validate), str(target)])
+        run(["python", str(quick_validate), str(target)])
 
 
 def syntax_check(target: Path) -> None:
     python_files = [path for path in sorted(target.rglob("*.py")) if "__pycache__" not in path.parts]
     for path in python_files:
-        run(["python3", "-m", "py_compile", str(path)])
+        run(["python", "-m", "py_compile", str(path)])
     for path in sorted(target.rglob("*.sh")):
         run(["bash", "-n", str(path)])
 
@@ -227,18 +227,9 @@ def update_readme(repo_root: Path, repo_slug: str) -> None:
     readme.write_text(body, encoding="utf-8")
 
 
-def github_skill_url(repo_slug: str, skill_name: str) -> str:
-    if repo_slug.startswith(("http://", "https://")):
-        base = repo_slug.removesuffix(".git").rstrip("/")
-    else:
-        base = f"https://github.com/{repo_slug}"
-    return f"{base}/tree/main/skills/{skill_name}"
-
-
 def render_skill_readme(skill_dir: Path, repo_slug: str) -> str:
     fields = parse_frontmatter(skill_dir / "SKILL.md")
     description = fields.get("description", "No description provided.")
-    skill_url = github_skill_url(repo_slug, skill_dir.name)
     lines = [
         f"# {skill_dir.name}",
         "",
@@ -246,9 +237,7 @@ def render_skill_readme(skill_dir: Path, repo_slug: str) -> str:
         "",
         "## Use With An Agent",
         "",
-        "Give this README URL to your agent (Codex, Claude Code, or another skill-aware agent) and ask it to install or use the skill:",
-        "",
-        skill_url,
+        "Open this README in GitHub and give the current page to your agent (Codex, Claude Code, or another skill-aware agent). Ask it to install or use the skill.",
         "",
         "## Details",
         "",

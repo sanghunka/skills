@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Extract readable transcript text from a YouTube video's subtitles."""
 
 from __future__ import annotations
