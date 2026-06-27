@@ -16,6 +16,19 @@ from pathlib import Path
 
 
 DEFAULT_INBOX = Path(os.environ.get("YOUTUBE_TRANSCRIPT_INBOX", ".")).expanduser()
+FORMAT_PATH = Path(__file__).resolve().parents[1] / "format.md"
+DEFAULT_NOTE_TEMPLATE = """---
+title: {note_title_yaml}
+source: {source_yaml}
+type: transcript
+created: {created}
+tags:
+  - youtube
+  - transcript
+---
+
+{transcript}
+"""
 
 
 def build_ytdlp_command() -> list[str]:
@@ -186,25 +199,29 @@ def default_output_path(title: str) -> Path:
     return DEFAULT_INBOX / f"{today} {safe_filename(title)} YouTube Transcript.md"
 
 
+def load_note_template() -> str:
+    if not FORMAT_PATH.exists():
+        return DEFAULT_NOTE_TEMPLATE
+    text = FORMAT_PATH.read_text(encoding="utf-8")
+    match = re.search(r"```md\n(.*?)\n```", text, re.DOTALL)
+    if not match:
+        return DEFAULT_NOTE_TEMPLATE
+    return match.group(1).strip() + "\n"
+
+
 def render_markdown_note(title: str, source: str, transcript: str) -> str:
     note_title = f"{title} YouTube Transcript"
     created = dt.date.today().isoformat()
-    return "\n".join(
-        [
-            "---",
-            f"title: {yaml_quote(note_title)}",
-            f"source: {yaml_quote(source)}",
-            "type: transcript",
-            f"created: {created}",
-            "tags:",
-            "  - youtube",
-            "  - transcript",
-            "---",
-            "",
-            transcript,
-            "",
-        ]
-    )
+    values = {
+        "{note_title_yaml}": yaml_quote(note_title),
+        "{source_yaml}": yaml_quote(source),
+        "{created}": created,
+        "{transcript}": transcript.rstrip(),
+    }
+    note = load_note_template()
+    for placeholder, value in values.items():
+        note = note.replace(placeholder, value)
+    return note.rstrip() + "\n"
 
 
 def find_subtitle_file(directory: Path) -> Path:

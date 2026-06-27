@@ -26,6 +26,12 @@ python ~/.codex/skills/youtube-script-extractor/scripts/extract_youtube_script.p
 
 By default, output is Markdown with frontmatter. Set `YOUTUBE_TRANSCRIPT_INBOX` or pass `--output <path>` to choose where files are saved.
 
+## Custom Format
+
+Saved transcript notes follow [`format.md`](format.md). Edit that file if you want a different note shape, frontmatter, tags, headings, or transcript placement.
+
+The bundled script uses the first fenced `md` block in `format.md` as its saved-note template.
+
 ## Details
 
 Agent-facing workflow and failure handling live in [`SKILL.md`](SKILL.md).

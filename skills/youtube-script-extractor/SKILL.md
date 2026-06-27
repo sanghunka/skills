@@ -7,12 +7,13 @@ description: Extract scripts, captions, subtitles, or transcript text from YouTu
 
 ## Workflow
 
-1. Run `scripts/extract_youtube_script.py <youtube-url>` for the requested video.
-2. Prefer manually authored subtitles over auto-generated captions unless the user requests otherwise.
-3. Select language with `--lang <code>` when requested. Use `ko` for Korean, `en` for English, or a comma-separated fallback list such as `ko,en`.
-4. Use `--timestamps` when the user needs a study script, quote lookup, or citation-friendly output. Omit timestamps for clean prose.
-5. If YouTube returns HTTP 429, login, bot-check, or private-video errors, retry with `--cookies-from-browser chrome` or another browser that has YouTube access.
-6. If extraction fails, report the concrete reason: missing captions, private/unavailable video, geo restriction, dependency/network failure, rate limiting, or unsupported URL.
+1. Read `format.md` in full before saving or presenting transcript output. Treat it as the source of truth for note format.
+2. Run `scripts/extract_youtube_script.py <youtube-url>` for the requested video.
+3. Prefer manually authored subtitles over auto-generated captions unless the user requests otherwise.
+4. Select language with `--lang <code>` when requested. Use `ko` for Korean, `en` for English, or a comma-separated fallback list such as `ko,en`.
+5. Use `--timestamps` when the user needs a study script, quote lookup, or citation-friendly output. Omit timestamps for clean prose unless `format.md` says otherwise.
+6. If YouTube returns HTTP 429, login, bot-check, or private-video errors, retry with `--cookies-from-browser chrome` or another browser that has YouTube access.
+7. If extraction fails, report the concrete reason: missing captions, private/unavailable video, geo restriction, dependency/network failure, rate limiting, or unsupported URL.
 
 ## Command Examples
 
@@ -25,28 +26,10 @@ python "${CODEX_HOME:-$HOME/.codex}/skills/youtube-script-extractor/scripts/extr
 
 ## Output Handling
 
+- Follow `format.md` for saved Markdown note structure.
 - Save to `$YOUTUBE_TRANSCRIPT_INBOX` by default when set, otherwise save to the current directory. Use `--output <path>` to choose a file explicitly.
-- Use Markdown with YAML frontmatter by default.
-- Use no timestamps by default.
-- End the note title and filename with `YouTube Transcript`.
-- Use `youtube` and `transcript` tags. Do not add an `inbox` tag.
-- Do not claim the transcript is complete if the video has no captions or only partial captions.
-
-Default saved note format:
-
-```md
----
-title: "{video title} YouTube Transcript"
-source: "{youtube url}"
-type: transcript
-created: YYYY-MM-DD
-tags:
-  - youtube
-  - transcript
----
-
-{transcript text}
-```
+- The bundled script reads the first fenced `md` block in `format.md` as its saved-note template.
+- If the user modifies `format.md`, honor that file over older examples or assumptions.
 
 ## Implementation Notes
 
