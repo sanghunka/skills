@@ -2,7 +2,7 @@
 
 Personal agent skills shared as an installable catalog.
 
-Some skills are general-purpose, and some are agent-specific. Open each skill folder's README for install and usage details.
+Some skills are general-purpose, and some are agent-specific. Open a skill README and give that README URL to your agent (Codex, Claude Code, or another skill-aware agent).
 
 ## Skills
 

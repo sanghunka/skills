@@ -227,25 +227,28 @@ def update_readme(repo_root: Path, repo_slug: str) -> None:
     readme.write_text(body, encoding="utf-8")
 
 
+def github_skill_url(repo_slug: str, skill_name: str) -> str:
+    if repo_slug.startswith(("http://", "https://")):
+        base = repo_slug.removesuffix(".git").rstrip("/")
+    else:
+        base = f"https://github.com/{repo_slug}"
+    return f"{base}/tree/main/skills/{skill_name}"
+
+
 def render_skill_readme(skill_dir: Path, repo_slug: str) -> str:
     fields = parse_frontmatter(skill_dir / "SKILL.md")
     description = fields.get("description", "No description provided.")
+    skill_url = github_skill_url(repo_slug, skill_dir.name)
     lines = [
         f"# {skill_dir.name}",
         "",
         description_summary(description),
         "",
-        "## Install in Codex",
+        "## Use With An Agent",
         "",
-        "```bash",
-        "python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \\",
-        f"  --repo {repo_slug} \\",
-        f"  --path skills/{skill_dir.name}",
-        "```",
+        "Give this README URL to your agent (Codex, Claude Code, or another skill-aware agent) and ask it to install or use the skill:",
         "",
-        "Restart Codex after installing so the skill appears in new Codex sessions.",
-        "",
-        "Outside Codex, point your agent at this folder or copy it into your agent's skill directory.",
+        skill_url,
         "",
         "## Details",
         "",

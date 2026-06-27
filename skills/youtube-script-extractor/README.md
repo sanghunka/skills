@@ -2,15 +2,11 @@
 
 Extract scripts, captions, subtitles, or transcript text from YouTube URLs.
 
-## Install in Codex
+## Use With An Agent
 
-```bash
-python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --repo sanghunka/skills \
-  --path skills/youtube-script-extractor
-```
+Give this README URL to your agent (Codex, Claude Code, or another skill-aware agent) and ask it to install or use the skill:
 
-Restart Codex after installing so the skill appears in new Codex sessions.
+https://github.com/sanghunka/skills/tree/main/skills/youtube-script-extractor
 
 ## Usage
 
@@ -31,8 +27,6 @@ python3 ~/.codex/skills/youtube-script-extractor/scripts/extract_youtube_script.
 ```
 
 By default, output is Markdown with frontmatter. Set `YOUTUBE_TRANSCRIPT_INBOX` or pass `--output <path>` to choose where files are saved.
-
-Outside Codex, point your agent at this folder or run the script directly from wherever you keep the skill.
 
 ## Details
 

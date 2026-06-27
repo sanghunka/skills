@@ -2,15 +2,13 @@
 
 Move a local Codex Desktop thread to a different project in the sidebar by updating the thread's stored `cwd` in Codex state and its rollout JSONL metadata.
 
-## Install in Codex
+## Use With An Agent
 
-```bash
-python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --repo sanghunka/skills \
-  --path skills/move-thread-codex
-```
+This skill is Codex-specific because it edits local Codex Desktop thread metadata.
 
-Restart Codex after installing so the skill appears in new Codex sessions.
+Give this README URL to Codex and ask it to install or use the skill:
+
+https://github.com/sanghunka/skills/tree/main/skills/move-thread-codex
 
 ## Usage
 
